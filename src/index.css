@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&display=swap');
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --color-matte: #0A0A0A;
+  --color-matte-light: #141414;
+  --color-matte-lighter: #222222;
+  --color-offwhite: #F5F5F5;
+  --color-muted: #888888;
+  --color-crimson: #922B21;
+  --color-crimson-dark: #701c14;
+  --color-surface-card: #121212;
+  --color-surface-hover: #1c1c1c;
+}
+
+html.light, [data-theme="light"] {
+  color-scheme: light;
+  --color-matte: #F8F9FA;
+  --color-matte-light: #FFFFFF;
+  --color-matte-lighter: #E2E8F0;
+  --color-offwhite: #0F172A;
+  --color-muted: #64748B;
+  --color-crimson: #922B21;
+  --color-crimson-dark: #701c14;
+  --color-surface-card: #FFFFFF;
+  --color-surface-hover: #F1F5F9;
+}
+
+@theme inline {
+  --font-sans: 'Syne', sans-serif;
+  --font-serif: 'Fraunces', serif;
+  --color-matte: var(--color-matte);
+  --color-matte-light: var(--color-matte-light);
+  --color-matte-lighter: var(--color-matte-lighter);
+  --color-offwhite: var(--color-offwhite);
+  --color-muted: var(--color-muted);
+  --color-crimson: var(--color-crimson);
+  --color-crimson-dark: var(--color-crimson-dark);
+  --color-surface-card: var(--color-surface-card);
+  --color-surface-hover: var(--color-surface-hover);
+
+  --animate-slow-zoom: slow-zoom 20s ease-out forwards;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 3s infinite;
+  --animate-spin-slow: spin-slow 4s linear infinite;
+
+  @keyframes slow-zoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+  }
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  @keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 rgba(146, 43, 33, 0.4); }
+    70% { box-shadow: 0 0 20px 10px rgba(146, 43, 33, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(146, 43, 33, 0); }
+  }
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+}
+
+body {
+  background-color: var(--color-matte);
+  color: var(--color-offwhite);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Noise overlay */
+.noise-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-crimson);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background-color 0.3s;
+}
+
+.custom-cursor.hovering {
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-crimson);
+  border-color: transparent;
+  opacity: 0.3;
+}
+
+.custom-cursor.clicking {
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+.click-flash {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background-color: var(--color-crimson);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10002;
+  transform: translate(-50%, -50%) scale(1);
+  animation: click-flash-anim 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+@keyframes click-flash-anim {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; box-shadow: 0 0 10px 5px rgba(146,43,33,0.8); }
+  100% { transform: translate(-50%, -50%) scale(20); opacity: 0; box-shadow: 0 0 40px 10px rgba(146,43,33,0); }
+}
+
+@layer components {
+  .btn-crimson {
+    @apply relative overflow-hidden inline-flex items-center justify-center px-10 py-4 min-h-[52px] bg-transparent text-offwhite border border-matte-lighter font-sans text-xs tracking-[0.2em] uppercase transition-all duration-500 rounded-none cursor-pointer;
+  }
+  .btn-crimson::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full bg-crimson -z-10 translate-y-full transition-transform duration-500 ease-in-out;
+  }
+  .btn-crimson:hover::before {
+    @apply translate-y-0;
+  }
+  .btn-crimson:hover {
+    @apply border-crimson shadow-[0_0_20px_rgba(146,43,33,0.3)] scale-[1.02] tracking-[0.25em] text-white;
+  }
+  .btn-crimson:active {
+    @apply scale-[0.98];
+  }
+  
+  .text-reveal {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .writing-vertical {
+    writing-mode: vertical-rl;
+  }
+}
