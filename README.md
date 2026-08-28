@@ -51,6 +51,18 @@ npm run dev                # backend em :3000 servindo o dist/ já buildado
 | `NODE_ENV` | não | `production` habilita o atributo `secure` do cookie |
 | `PORT` | não | Porta do servidor (padrão `3000`) |
 
+## Rodando no Termux (Android)
+
+No Termux os scripts de `node_modules/.bin` podem falhar (shebang quebrado). Use os comandos diretos:
+
+```bash
+node node_modules/typescript/bin/tsc --noEmit              # typecheck
+node node_modules/eslint/bin/eslint.js src --max-warnings 0  # lint
+node node_modules/vite/bin/vite.js build                   # frontend
+node node_modules/esbuild/bin/esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs
+node dist/server.cjs                                       # sobe o servidor
+```
+
 ## Scripts
 
 | Comando | Descrição |

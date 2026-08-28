@@ -4,14 +4,14 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node node_modules/tsx/dist/cli.mjs server.ts",
-    "dev:web": "node node_modules/vite/bin/vite.js",
-    "build": "node node_modules/vite/bin/vite.js build && node node_modules/esbuild/bin/esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "dev": "tsx server.ts",
+    "dev:web": "vite",
+    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "start": "node dist/server.cjs",
-    "preview": "node node_modules/vite/bin/vite.js preview",
+    "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "node node_modules/eslint/bin/eslint.js src --max-warnings 0",
-    "typecheck": "node node_modules/typescript/bin/tsc --noEmit"
+    "lint": "eslint src --max-warnings 0",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.111.0",
