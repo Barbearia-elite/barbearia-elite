@@ -3,16 +3,9 @@ import { useState } from 'react';
 import PageTransition from '../components/PageTransition';
 import { X } from 'lucide-react';
 
-type Category = 'Todos' | 'Cortes' | 'Barba' | 'Ambiente';
+type Category = 'Todos' | 'Barba' | 'Ambiente';
 
 const images = [
-  {
-    url: '/corte_28.png',
-    title: 'Corte Assinatura',
-    category: 'Cortes' as Category,
-    // TODO: Adicione o crédito quando tiver fotos reais
-    credit: 'João Neto & Cristian Mauro'
-  },
   {
     url: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=1000',
     title: 'O Espaço',
@@ -36,7 +29,7 @@ const images = [
   }
 ];
 
-const categories: Category[] = ['Todos', 'Cortes', 'Barba', 'Ambiente'];
+const categories: Category[] = ['Todos', 'Barba', 'Ambiente'];
 
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<Category>('Todos');
